@@ -7,5 +7,7 @@ edition = "2018"
 [dependencies]
 actix="*"
 actix-web="*"
+log="*"
 env_logger="*"
 futures="*"
+clap="*"
