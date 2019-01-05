@@ -11,3 +11,7 @@ log="*"
 env_logger="*"
 futures="*"
 clap="*"
+serde_json = "*"
+serde="*"
+serde_derive="*"
+

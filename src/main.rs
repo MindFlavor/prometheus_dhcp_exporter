@@ -1,3 +1,5 @@
+#[macro_use]
+extern crate serde_derive;
 use actix;
 use actix_web::http::Method;
 use actix_web::{middleware, pred, server, App, Error, HttpRequest, HttpResponse};
@@ -6,6 +8,8 @@ use clap::Arg;
 use futures::future::{result, FutureResult};
 use log::info;
 use std::env;
+
+mod dhcp_pool;
 
 fn metrics_handler(_req: &HttpRequest) -> FutureResult<HttpResponse, Error> {
     //    println!("{:?}", req);
@@ -60,7 +64,7 @@ fn main() {
     .unwrap()
     .start();
 
-    info!("starting exporter on {}", bind);
+    println!("starting exporter on {}", bind);
 
     sys.run();
 }
