@@ -1,0 +1,11 @@
+[package]
+name = "prometheus_dhcp_exporter"
+version = "0.1.0"
+authors = ["Francesco Cogno <francesco.cogno@outlook.com>"]
+edition = "2018"
+
+[dependencies]
+actix="*"
+actix-web="*"
+env_logger="*"
+futures="*"
