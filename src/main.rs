@@ -117,6 +117,7 @@ fn main() {
     })
     .bind(bind.clone())
     .unwrap()
+    .shutdown_timeout(0)
     .start();
 
     println!("starting exporter on {}", bind);
