@@ -1,17 +1,17 @@
 #[derive(Debug, Deserialize)]
 #[serde(rename = "subnet")]
 pub struct Subnet {
-    location: String,
-    range: String,
-    defined: u64,
-    used: u64,
-    touched: u64,
-    free: u64,
+    pub location: String,
+    pub range: String,
+    pub defined: u64,
+    pub used: u64,
+    pub touched: u64,
+    pub free: u64,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct DHCPDPool {
-    subnets: Vec<Subnet>,
+    pub subnets: Vec<Subnet>,
 }
 
 #[cfg(test)]
