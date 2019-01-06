@@ -1,8 +1,18 @@
 # Prometheus DHCP Exporter
 
+[![legal](https://img.shields.io/github/license/mindflavor/prometheus_dhcp_exporter.svg)](LICENSE) 
+
+ [![alpha](https://img.shields.io/badge/stability-alpha-yellow.svg)](https://img.shields.io/badge/stability-alpha-yellow.svg)
+
+[![Crate](https://img.shields.io/crates/v/prometheus_dhcp_exporter.svg)](https://crates.io/crates/prometheus_dhcp_exporter) [![cratedown](https://img.shields.io/crates/d/prometheus_dhcp_exporter.svg)](https://crates.io/crates/prometheus_dhcp_exporter) [![cratelastdown](https://img.shields.io/crates/dv/prometheus_dhcp_exporter.svg)](https://crates.io/crates/prometheus_dhcp_exporter)
+
+[![tag](https://img.shields.io/github/tag/mindflavor/prometheus_dhcp_exporter.svg)](https://github.com/MindFlavor/prometheus_dhcp_exporter/tree/0.0.1)
+[![release](https://img.shields.io/github/release/mindflavor/prometheus_dhcp_exporter.svg)](https://github.com/MindFlavor/prometheus_dhcp_exporter/tree/0.0.1)
+[![commitssince](https://img.shields.io/github/commits-since/mindflavor/prometheus_dhcp_exporter/0.0.1.svg)](https://img.shields.io/github/commits-since/mindflavor/prometheus_dhcp_exporter/0.0.1.svg)
+
 ## Intro
 A Rust Prometheus exporter for `dhcpd_pools`. This tool exports the infmation provided by the [dhcpd-pools](https://sourceforge.net/projects/dhcpd-pools/) utility in a format that [Prometheus](https://prometheus.io/) can understand. It's a Rust-only clone of this exporter: [https://github.com/atonkyra/dhcp-stats-prometheus](https://github.com/atonkyra/dhcp-stats-prometheus). 
-There is really no need to rewrite this is Rust but I was looking for an excuse to write some Rust. The advantage is this tool does not have a dependency on Python and of course being Rust the memory and CPU footprint is minimal (which is always a good thing).
+There is really no need to rewrite this in Rust but I was looking for an excuse to write some Rust. The advantage is this tool does not have a dependency on Python and of course being Rust the memory and CPU footprint is minimal (which is always a good thing).
 
 ## Prerequisites 
 
