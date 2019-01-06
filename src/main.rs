@@ -60,55 +60,16 @@ fn execute() -> Result<String, Error> {
 }
 
 fn metrics_handler(_req: &HttpRequest) -> FutureResult<HttpResponse, actix_web::Error> {
-    let output = match Command::new("dhcpd-pools").args(&["--format=j"]).output() {
-        Ok(output) => output,
-        Err(error) => {
-            error!("invoke process error: {:?}", error);
-            return result(Ok(HttpResponse::InternalServerError()
+    match execute() {
+        Ok(s) => result(Ok(HttpResponse::Ok().content_type("text/plain").body(s))),
+        Err(err) => {
+            error!("{:?}", err);
+
+            result(Ok(HttpResponse::InternalServerError()
                 .content_type("text/plain")
-                .body(format!("** ERR: {}", error))));
+                .body(format!("** ERR: {}", err))))
         }
-    };
-
-    debug!("{:?}", output);
-
-    if output.stderr.len() > 0 {
-        let error = String::from_utf8(output.stderr).unwrap();
-        error!("dhcpd_pools error: {}", error);
-        return result(Ok(HttpResponse::InternalServerError()
-            .content_type("text/plain")
-            .body(error)));
     }
-
-    let output_string = String::from_utf8(output.stdout).unwrap();
-    let pool: dhcp_pool::DHCPDPool = match serde_json::from_str(&output_string) {
-        Ok(pool) => pool,
-        Err(error) => {
-            error!("json parse error: {:?}", error);
-            return result(Ok(HttpResponse::InternalServerError()
-                .content_type("text/plain")
-                .body(format!("json parse error: {}", error))));
-        }
-    };
-
-    let mut s = String::with_capacity(1024);
-    for subnet in &pool.subnets {
-        debug!("subnet {:?}", subnet);
-        s.push_str(&format!(
-            "dhcp_pool_used{{ip_version=\"4\",network=\"{}\",range=\"{}\"}} {}\n",
-            subnet.location, subnet.range, subnet.used
-        ));
-        s.push_str(&format!(
-            "dhcp_pool_free{{ip_version=\"4\",network=\"{}\",range=\"{}\"}} {}\n",
-            subnet.location, subnet.range, subnet.free
-        ));
-        s.push_str(&format!(
-            "dhcp_pool_touched{{ip_version=\"4\",network=\"{}\",range=\"{}\"}} {}\n",
-            subnet.location, subnet.range, subnet.touched
-        ));
-    }
-
-    result(Ok(HttpResponse::Ok().content_type("text/plain").body(s)))
 }
 
 fn main() {
