@@ -6,14 +6,13 @@ use actix_web::{middleware, pred, server, App, Error, HttpRequest, HttpResponse}
 use clap;
 use clap::Arg;
 use futures::future::{result, FutureResult};
-use log::{debug, error, info};
+use log::{debug, error};
 use std::env;
 use std::process::Command;
 
 mod dhcp_pool;
 
 fn metrics_handler(_req: &HttpRequest) -> FutureResult<HttpResponse, Error> {
-    //    println!("{:?}", req);
     let output = match Command::new("dhcpd-pools").args(&["--format=j"]).output() {
         Ok(output) => output,
         Err(error) => {
@@ -88,7 +87,7 @@ fn main() {
         println!("verbose logging enabled");
         env::set_var("RUST_LOG", "actix_web=debug,prometheus_dhcp_exporter=debug");
     } else {
-        env::set_var("RUST_LOG", "actix_web=info,prometheus_dhcp_exporter=info");
+        env::set_var("RUST_LOG", "actix_web=warn,prometheus_dhcp_exporter=warn");
     }
     env_logger::init();
 
