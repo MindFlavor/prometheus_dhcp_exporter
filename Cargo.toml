@@ -2,6 +2,7 @@
 name          = "prometheus_dhcp_exporter"
 version       = "0.1.0"
 authors       = ["Francesco Cogno <francesco.cogno@outlook.com>"]
+description   = "Prometheus DHCP Exporter"
 edition       = "2018"
 
 readme        = "README.md"
