@@ -1,5 +1,3 @@
-use serde_json;
-
 #[derive(Debug, Deserialize)]
 #[serde(rename = "subnet")]
 struct Subnet {
