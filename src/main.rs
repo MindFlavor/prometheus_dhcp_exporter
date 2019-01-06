@@ -32,7 +32,7 @@ fn execute() -> Result<String, Error> {
         return Err(DHCPDPoolExecuteError::DHCPDPoolError { msg: error }.into());
     }
 
-    if output.stdout.len() > 0 {
+    if output.stdout.len() = 0 {
         return Err(DHCPDPoolExecuteError::NoOutputError.into());
     }
 
