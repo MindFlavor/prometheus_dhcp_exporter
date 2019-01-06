@@ -45,16 +45,20 @@ fn metrics_handler(_req: &HttpRequest) -> FutureResult<HttpResponse, Error> {
         }
     };
 
-    let mut s = String::new();
+    let mut s = String::with_capacity(1024);
     for subnet in &pool.subnets {
         debug!("subnet {:?}", subnet);
-        s.add(format!(
-            "dhcp_pool_used{ip_version=\"4\",network=\"{}\",range=\"{}\"} {}\n",
+        s.push_str(&format!(
+            "dhcp_pool_used{{ip_version=\"4\",network=\"{}\",range=\"{}\"}} {}\n",
             subnet.location, subnet.range, subnet.used
         ));
-        s.add(format!(
-            "dhcp_pool_free{ip_version=\"4\",network=\"{}\",range=\"{}\"} {}\n",
+        s.push_str(&format!(
+            "dhcp_pool_free{{ip_version=\"4\",network=\"{}\",range=\"{}\"}} {}\n",
             subnet.location, subnet.range, subnet.free
+        ));
+        s.push_str(&format!(
+            "dhcp_pool_touched{{ip_version=\"4\",network=\"{}\",range=\"{}\"}} {}\n",
+            subnet.location, subnet.range, subnet.touched
         ));
     }
 
