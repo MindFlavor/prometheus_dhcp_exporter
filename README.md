@@ -1,14 +1,12 @@
 # Prometheus DHCP Exporter
 
-[![legal](https://img.shields.io/github/license/mindflavor/prometheus_dhcp_exporter.svg)](LICENSE) 
-
- [![alpha](https://img.shields.io/badge/stability-alpha-yellow.svg)](https://img.shields.io/badge/stability-alpha-yellow.svg)
+[![legal](https://img.shields.io/github/license/mindflavor/prometheus_dhcp_exporter.svg)](LICENSE)  [![alpha](https://img.shields.io/badge/stability-alpha-yellow.svg)](https://img.shields.io/badge/stability-alpha-yellow.svg)
 
 [![Crate](https://img.shields.io/crates/v/prometheus_dhcp_exporter.svg)](https://crates.io/crates/prometheus_dhcp_exporter) [![cratedown](https://img.shields.io/crates/d/prometheus_dhcp_exporter.svg)](https://crates.io/crates/prometheus_dhcp_exporter) [![cratelastdown](https://img.shields.io/crates/dv/prometheus_dhcp_exporter.svg)](https://crates.io/crates/prometheus_dhcp_exporter)
 
-[![tag](https://img.shields.io/github/tag/mindflavor/prometheus_dhcp_exporter.svg)](https://github.com/MindFlavor/prometheus_dhcp_exporter/tree/0.0.1)
-[![release](https://img.shields.io/github/release/mindflavor/prometheus_dhcp_exporter.svg)](https://github.com/MindFlavor/prometheus_dhcp_exporter/tree/0.0.1)
-[![commitssince](https://img.shields.io/github/commits-since/mindflavor/prometheus_dhcp_exporter/0.0.1.svg)](https://img.shields.io/github/commits-since/mindflavor/prometheus_dhcp_exporter/0.0.1.svg)
+[![tag](https://img.shields.io/github/tag/mindflavor/prometheus_dhcp_exporter.svg)](https://github.com/MindFlavor/prometheus_dhcp_exporter/tree/0.1.0)
+[![release](https://img.shields.io/github/release/mindflavor/prometheus_dhcp_exporter.svg)](https://github.com/MindFlavor/prometheus_dhcp_exporter/tree/0.1.0)
+[![commitssince](https://img.shields.io/github/commits-since/mindflavor/prometheus_dhcp_exporter/0.1.0.svg)](https://img.shields.io/github/commits-since/mindflavor/prometheus_dhcp_exporter/0.1.0.svg)
 
 ## Intro
 A Rust Prometheus exporter for `dhcpd_pools`. This tool exports the infmation provided by the [dhcpd-pools](https://sourceforge.net/projects/dhcpd-pools/) utility in a format that [Prometheus](https://prometheus.io/) can understand. It's a Rust-only clone of this exporter: [https://github.com/atonkyra/dhcp-stats-prometheus](https://github.com/atonkyra/dhcp-stats-prometheus). 
