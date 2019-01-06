@@ -1,10 +1,13 @@
 #[macro_use]
+extern crate failure;
+#[macro_use]
 extern crate serde_derive;
 use actix;
 use actix_web::http::Method;
-use actix_web::{middleware, pred, server, App, Error, HttpRequest, HttpResponse};
+use actix_web::{middleware, pred, server, App, HttpRequest, HttpResponse};
 use clap;
 use clap::Arg;
+use failure::Error;
 use futures::future::{result, FutureResult};
 use log::{debug, error};
 use std::env;
@@ -12,7 +15,51 @@ use std::process::Command;
 
 mod dhcp_pool;
 
-fn metrics_handler(_req: &HttpRequest) -> FutureResult<HttpResponse, Error> {
+#[derive(Debug, Fail)]
+pub enum DHCPDPoolExecuteError {
+    #[fail(display = "no output from process error")]
+    NoOutputError,
+    #[fail(display = "dhcpd_pool error: {}", msg)]
+    DHCPDPoolError { msg: String },
+}
+
+fn execute() -> Result<String, Error> {
+    let output = Command::new("dhcpd-pools").args(&["--format=j"]).output()?;
+    debug!("dhcpd-pools output: {:?}", output);
+
+    if output.stderr.len() > 0 {
+        let error = String::from_utf8(output.stderr)?;
+        return Err(DHCPDPoolExecuteError::DHCPDPoolError { msg: error }.into());
+    }
+
+    if output.stdout.len() > 0 {
+        return Err(DHCPDPoolExecuteError::NoOutputError.into());
+    }
+
+    let output_string = String::from_utf8(output.stdout)?;
+    let pool: dhcp_pool::DHCPDPool = serde_json::from_str(&output_string)?;
+
+    let mut s = String::with_capacity(1024);
+    for subnet in &pool.subnets {
+        debug!("subnet {:?}", subnet);
+        s.push_str(&format!(
+            "dhcp_pool_used{{ip_version=\"4\",network=\"{}\",range=\"{}\"}} {}\n",
+            subnet.location, subnet.range, subnet.used
+        ));
+        s.push_str(&format!(
+            "dhcp_pool_free{{ip_version=\"4\",network=\"{}\",range=\"{}\"}} {}\n",
+            subnet.location, subnet.range, subnet.free
+        ));
+        s.push_str(&format!(
+            "dhcp_pool_touched{{ip_version=\"4\",network=\"{}\",range=\"{}\"}} {}\n",
+            subnet.location, subnet.range, subnet.touched
+        ));
+    }
+
+    Ok(s)
+}
+
+fn metrics_handler(_req: &HttpRequest) -> FutureResult<HttpResponse, actix_web::Error> {
     let output = match Command::new("dhcpd-pools").args(&["--format=j"]).output() {
         Ok(output) => output,
         Err(error) => {
