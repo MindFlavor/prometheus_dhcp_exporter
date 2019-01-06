@@ -27,12 +27,12 @@ fn execute() -> Result<String, Error> {
     let output = Command::new("dhcpd-pools").args(&["--format=j"]).output()?;
     debug!("dhcpd-pools output: {:?}", output);
 
-    if output.stderr.len() > 0 {
+    if !output.stderr.is_empty() {
         let error = String::from_utf8(output.stderr)?;
         return Err(DHCPDPoolExecuteError::DHCPDPoolError { msg: error }.into());
     }
 
-    if output.stdout.len() == 0 {
+    if output.stdout.is_empty() {
         return Err(DHCPDPoolExecuteError::NoOutputError.into());
     }
 
