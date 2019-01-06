@@ -1,6 +1,6 @@
 #[derive(Debug, Deserialize)]
 #[serde(rename = "subnet")]
-struct Subnet {
+pub struct Subnet {
     location: String,
     range: String,
     defined: u64,
@@ -10,7 +10,7 @@ struct Subnet {
 }
 
 #[derive(Debug, Deserialize)]
-struct DHCPDPool {
+pub struct DHCPDPool {
     subnets: Vec<Subnet>,
 }
 

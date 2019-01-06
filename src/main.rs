@@ -35,10 +35,19 @@ fn metrics_handler(_req: &HttpRequest) -> FutureResult<HttpResponse, Error> {
     }
 
     let output_string = String::from_utf8(output.stdout).unwrap();
+    let pool: dhcp_pool::DHCPDPool = match serde_json::from_str(&output_string) {
+        Ok(pool) => pool,
+        Err(error) => {
+            error!("json parse error: {:?}", error);
+            return result(Ok(HttpResponse::InternalServerError()
+                .content_type("text/plain")
+                .body(format!("json parse error: {}", error))));
+        }
+    };
 
     result(Ok(HttpResponse::Ok()
-        .content_type("text/json")
-        .body(format!("{}", output_string))))
+        .content_type("text/plain")
+        .body(format!("{:?}", pool))))
 }
 
 fn main() {
