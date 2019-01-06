@@ -15,14 +15,14 @@ categories    = ["api-bindings"]
 
 
 [dependencies]
-actix="*"
-actix-web="*"
-log="*"
-env_logger="*"
-futures="*"
-clap="*"
-serde_json = "*"
-serde="*"
-serde_derive="*"
-failure="*"
+actix="0.7.9"
+actix-web="0.7.17"
+log="0.4.6"
+env_logger="0.6.0"
+futures="0.1.25"
+clap="2.32.0"
+serde_json = "1.0.34"
+serde="1.0.84"
+serde_derive="1.0.84"
+failure="0.1.5"
 
